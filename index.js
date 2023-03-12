@@ -1,6 +1,8 @@
 var express = require("express");
-var app = express();
+var bodyParser = require("body-parser");
 var morgan = require("morgan");
+
+var app = express();
 var users = [
   { id: 1, name: "alice" },
   { id: 2, name: "leo" },
@@ -9,8 +11,12 @@ var users = [
   { id: 5, name: "taylor" },
 ];
 
+// 미들웨어 추가
 app.use(morgan("dev"));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
+// API 등록
 app.get("/user/:id", function (req, res) {
   const id = parseInt(req.params.id, 10);
   if (Number.isNaN(id)) {
@@ -39,6 +45,14 @@ app.delete("/user/:id", (req, res) => {
   }
   users = users.filter((user) => user.id !== id); // param.id와 같지 않은 요소들로 기존의 리스트를 업데이트 == 삭제하는 것과 같은 효과
   res.status(204).end();
+});
+
+app.post("/user", (req, res) => {
+  const name = req.body.name;
+  const id = Date.now()
+  const user = { id, name }; // === {'id': id, 'name': name}
+  users.push(user);
+  res.status(201).json(user);
 });
 
 app.listen(3000, function () {
