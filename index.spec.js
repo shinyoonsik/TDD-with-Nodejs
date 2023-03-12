@@ -11,7 +11,7 @@ describe("GET /users는", () => {
           res.body.should.be.instanceOf(Array);
           done();
         });
-    });
+    });   
 
     it("최대 limit개수 만큼 응답한다", (done) => {
       request(app)
