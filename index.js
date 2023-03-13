@@ -7,7 +7,7 @@ var users = [
   { id: 1, name: "alice" },
   { id: 2, name: "leo" },
   { id: 3, name: "kenny" },
-  { id: 4, name: "lii" },
+  { id: 4, name: "jay" },
   { id: 5, name: "taylor" },
 ];
 
@@ -49,9 +49,44 @@ app.delete("/user/:id", (req, res) => {
 
 app.post("/user", (req, res) => {
   const name = req.body.name;
-  const id = Date.now()
+  if (!name) {
+    return res.status(400).end();
+  }
+
+  const isDuplicated = users.filter((user) => user.name === name).length;
+  if (isDuplicated) {
+    return res.status(409).end();
+  }
+
+  const id = Date.now();
   const user = { id, name }; // === {'id': id, 'name': name}
   users.push(user);
+  res.status(201).json(user);
+});
+
+app.put("/user/:id", (req, res) => {
+  const id = parseInt(req.params.id, 10);
+  if (Number.isNaN(id)) {     
+    return res.status(400).end();
+  }
+
+  const name = req.body.name;
+  if (!name) {
+    return res.status(400).end();
+  }
+
+  if (id > users.length) {
+    return res.status(404).end();
+  }
+
+  const isDuplicated = users.filter((user) => user.name === name).length;
+  if (isDuplicated > 0) {
+    return res.status(409).end();
+  }
+  
+  const user = users.filter(user => user.id === id)[0]
+  user.name = name
+  
   res.status(201).json(user);
 });
 
