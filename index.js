@@ -12,8 +12,4 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // "/users"로 들어오는 모든 요청은 user가 담당한다
 app.use("/user", userIndex);  // user는 폴더인데...module인 router를 사용해야 되는거 아닌가????
 
-app.listen(3000, function () {
-  console.log("Example app listening on port 3000");
-});
-
 module.exports = app;

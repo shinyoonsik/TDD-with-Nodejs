@@ -1,11 +1,11 @@
 {
   "name": "nodejs",
   "version": "1.0.0",
-  "description": "",
+  "description": "# github-action으로 CI 파이프 라인. 테스트 코드 먼저 돌려보기!",
   "main": "index.js",
   "scripts": {
-    "test": "mocha",
-    "start": "node index.js"
+    "test": "mocha api/user/user.service.spec.js",
+    "start": "node bin/www.js"
   },
   "author": "",
   "license": "ISC",
@@ -19,5 +19,6 @@
     "mocha": "^10.2.0",
     "should": "^13.2.3",
     "supertest": "^6.3.3"
-  }
+  },
+  "keywords": []
 }
